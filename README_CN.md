@@ -1,115 +1,127 @@
-DFRobot_EnvironmentalSensor
-===========================
+On a daily basis, people use weather forecasts to determine what to wear on a given day or to plan travel or events
 
-* [English Version](./README.md)
+However, it only tells temperature in a relatively large range. Sometimes we need environmental parameters in a specific place like a fishpond, greenhouse, an open field, etc. Here I want to know the exact temperatures during a day on my terrace. So I decide to make a weather monitoring station that outputs the real-time data I need. 
 
-SEN0500/SEN0501 是一个多气象传感器，模块上集成了，紫外线传感器、光照传感器、大气压强传感器、温湿度传感器，模块有Gravity接口和Breakout两种接口方式，通过串口或I2C进行数据传输，通过模块上的切换开关进行通信方式选择。
-DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduino驱动库，用户可以用此驱动库来驱动Ardunio主控连接的传感器获取传感器数据。
+I got this environmental sensor from DFRobot that can measure temperature, humidity, pressure, ambient light, and UV, which is well suitable for this project.
 
-![产品效果图片](./resources/images/SEN0501.png)
-![产品效果图片](./resources/images/SEN0500.png)
+This summer is much hotter than previous ones, and many places got record-breaking temperatures of over 40℃. For the sake of convenience, I add a UART fiber optic transceiver module in the project for data transmission, so I don't need to go outside to view data all the time. 
 
-## 产品链接（https://www.dfrobot.com）
+Video coming soon!!!
 
-    SKU：SEN0500/SEN0501
-  
-## 目录
+projectImage
+projectImage
+projectImage
+HARDWARE LIST
+2
+ESP32-E IoT Microcontroller
+Link
+1
+Gravity: High Accuracy Temperature, Humidity, Pressure, Ambient Light and UV Sensor
+Link
+1
+OLED Transparent Display
+Link
+2
+UART Fiber Optic Transceiver Module
+Link
+1
+SC-SC Single Mode Duplex Fiber Jumper (50m)
+Link
+1
+Lithium Battery Charger
+Link
+2
+3.7V Battery
+Link
+Hardware Connection
+ 
 
-  * [概述](#概述)
-  * [库安装](#库安装)
-  * [方法](#方法)
-  * [兼容性](#兼容性)
-  * [历史](#历史)
-  * [创作者](#创作者)
+Display End：
 
-## 概述
+projectImage
+Sensor End：
 
-这是一个多气象传感器得库，使用该库能够很便捷得获取温度、湿度、压强、紫外线强度、自然光线强度和海拔等信息，
-模块还提供了Gravity版本和breakout版本方便使用。
+projectImage
+Assembly
+ 
 
-## 库安装
+Display End：
 
-使用此库前，请首先下载库文件，将其粘贴到\Arduino\libraries目录中，然后打开examples文件夹并在该文件夹中运行演示。
+We need to design the housing first and 3D print it.
 
-## 方法
+projectImage
+Then connect all the modules according to the connection diagram.
 
-```C++
-  /**
-   * @fn begin
-   * @brief 初始化SEN0500/SEN0501传感器
-   * @return 返回值初始化状态
-   * @retval 0  成功
-   * @retval -1 失败
-   */
-  int8_t begin(void);
+Now we put hardware modules into the housing. Install ESP32 main controller first (please be careful during installation to avoid wire disconnection), then fix the battery on the top of the housing with glue.
 
-  /**
-   * @fn getTemperature
-   * @brief 获取SEN0500/SEN0501温度数据
-   * @param units 温度数据单位选择
-   * @n     TEMP_C 摄氏度
-   * @n     TEMP_F 华氏度 
-   * @return 返回获取的温度数据
-   */
-  float getTemperature(uint8_t unist);
+projectImage
+And install the UART fiber optic transceiver module on the bottom of the housing.
 
-  /**
-   * @fn getHumidity
-   * @brief 获取SEN0500/SEN0501湿度数据 
-   * @return 返回获取的湿度数据
-   */
-  float getHumidity(void);
+projectImage
+Connect ESP32 to the cable that comes with the OLED transparent display, and tidy it up.
 
-  /**
-   * @fn getUltravioletIntensity
-   * @brief 获取SEN0500/SEN0501紫外线强度指数数据 
-   * @return 返回获取的紫外线强度指数数据
-   */
-  float getUltravioletIntensity(void);
+projectImage
+Connect the cable to the display converter.
 
-  /**
-   * @fn getLuminousIntensity
-   * @brief 获取SEN0500/SEN0501光线强度数据 
-   * @return 返回获取的光线强度数据
-   */
-  float getLuminousIntensity(void);
+projectImage
+projectImage
+Next, we need to make a frame for the display. 
 
-  /**
-   * @fn getAtmospherePressure
-   * @brief 获取SEN0500/SEN0501大气压强数据 
-   * @param units 大气压强数据单位选择
-   * @n            HPA:百帕
-   * @n            KPA:千帕
-   * @return 返回获取的大气压强数据
-   */
-  uint16_t getAtmospherePressure(uint8_t units);
+Draw the frame and laser cut two acrylic sheets according to the drawing.
 
-  /**
-   * @fn getElevation
-   * @brief 获取SEN0500/SEN0501海拔数据 
-   * @return 返回获取的海拔数据
-   */
-  float getElevation(void);
-```
+projectImage
+projectImage
+Then put the display between the two sheets and join them with super glue.
 
+projectImage
+projectImage
+Install the display frame on the housing, and the display end is done.
 
-## 兼容性
+projectImage
+Sensor End：
 
-MCU                | SoftwareSerial | HardwareSerial |      IIC      |
------------------- | :----------: | :----------: | :----------: | 
-Arduino Uno        |      √       |      X       |      √       |
-Mega2560           |      √       |      √       |      √       |
-Leonardo           |      √       |      √       |      √       |
-ESP32              |      X       |      √       |      √       |
-ESP8266            |      √       |      X       |      √       |
-micro:bit          |      X       |      X       |      √       |
-FireBeetle M0      |      X       |      √       |      X        |
-raspberry          |      X       |      √       |      √       |
+Design the housing for the sensor end.
 
-## 历史
-- 2021-08-31 - 1.0.0 版本
-- 2022-01-18 - 1.0.1 版本
+projectImage
+In the same way, connect all the modules according to the connection diagram.
 
-## 创作者
+Then we need to make the battery charger and the sensor adhere to the fiber optic transceiver.
 
-Written by TangJie(jie.tang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
+Use glue to fix the charger; thread a nylon hex bolt through the upper-right holes of the sensor and transceiver and fasten it with a fit nut to fix the sensor.
+
+projectImage
+Fix the battery on the transceiver with glue, and thread nylon hex bolts through the holes in the two corners of the fiber optic module and fasten them so that the structure can keep steady on flat.
+
+projectImage
+As shown in the figure below, the structure has three layers.
+
+projectImage
+Now put the structure into the housing.
+
+projectImage
+And put on the cover.
+
+projectImage
+Finally finished! Let's have it a go.
+
+ 
+
+Test
+Now we place the tripod holding the sensor end outside.
+
+projectImage
+Connect the sensor end to the display end with optic-fiber cable.
+
+projectImage
+Then we can view the real-time temperature and humidity data at the display end.
+
+If there is no data shown on your display, try exchanging pins TX and RX of one end.
+
+projectImage
+ 
+
+With the multi-functional environmental sensor, the weather station can also measure air pressure, ambient light and UV intensity besides temperature and humidity, so we can use our brains to make the most of it. For example, we can apply it to greenhouse planting monitoring, fishpond status view, laboratory experiments, etc. But we need to take good care of the display lest a backlight bleed may occur at the damaged corner and thus affect display effect.
+
+ 
+
+Thanks for reading, feel free to leave your comments if you have any other good ideas!
